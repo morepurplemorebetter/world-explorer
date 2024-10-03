@@ -48,8 +48,8 @@ export class SceneUpdater {
                 dimensions[1] += 1;
             }
             const newPositions = [];
-            for (let row = 0; row < dimensions[0]; row++) {
-                for (let col = 0; col < dimensions[1]; col++) {
+            for (let row = -1; row <= dimensions[0]; row++) {
+                for (let col = -1; col <= dimensions[1]; col++) {
                     newPositions.push([row, col, state]);
                 }
             }

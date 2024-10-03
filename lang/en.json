@@ -5,12 +5,13 @@
             "Enabled": "Enable the module to work for this scene",
             "Colors": {
                 "Overlay.Label": "Overlay Color",
+                "Overlay.Hint": "When using an overlay image, the overlay color is ignored.",
                 "Partial.Label": "Partly Revealed Overlay Color",
-                "Partial.Hint": "Optional. Will color partly revealed grid tiles differently, using the opacity set below. If using an overlay image, the overlay color and partly revealed overlay color will be ignored."
+                "Partial.Hint": "Leave empty to use the overlay color for partly revealed grid tiles or no color if using an overlay image. When using an overlay image, this color will only be visible for the GM."
             },
             "Image.Label": "Overlay Image",
             "GridReveal": {
-                "Label": "Extend Revealed Tiles (distance)",
+                "Label": "Extend Revealed Tiles",
                 "Hint": "Set this if you want the revealed grid tiles to extend a certain amount into hidden grid tiles and partly revealed grid tiles. This does not extend the partly revealed grid tiles."
             },
             "Opacity": {
@@ -21,27 +22,30 @@
             "Position": {
                 "Options": {
                     "back": "Cover the map only",
-                    "behindDrawings": "Cover the map and non-overhead grid tiles",
-                    "behindTokens": "Cover the map, non-overhead grid tiles, and drawings",
+                    "behindDrawings": "Cover the map and non-overhead tiles",
+                    "behindTokens": "Cover the map, non-overhead tiles, and drawings",
                     "front": "Cover everything except grid"
                 },
                 "Label": "Overlay Position",
-                "Hint": "Whether it should display below grid tiles and textures or above."
+                "Hint": "Whether it should display below drawings, tiles, and tokens or above."
             },
             "TokenInteractions" : {
                 "Title": "Token Interactions with Grid Tile",
-                "TokenReveal": "Token Reveal (distance)",
+                "TokenReveal": "Token Reveal Distance",
                 "PersistExplored": "Keep areas explored by tokens"
             }
         },
         "Tools": {
-            "Toggle": "Toggle Grid Tiles (reveal/hide)",
-            "Reveal": "Reveal Grid Tiles",
+            "Hide": "Hide Grid Tiles",
+            "Opacity" : {
+                "Title" : "Set GM Overlay Opacities",
+                "Hidden": "Game Master Hidden Grid Tiles Opacity",
+                "Partial": "Game Master Partly Revealed Grid Tiles Opacity"
+            },
             "Partial": "Partly Reveal Grid Tiles",
-            "Hide": "Hide Grid TIles",
-            "Opacity": "GM Overlay Opacity",
-            "PartialOpacity": "GM Partly Revealed Opacity",
-            "Reset": "Reset Scene"
+            "Reset": "Reset Scene",
+            "Reveal": "Reveal Grid Tiles",
+            "Toggle": "Toggle Grid Tiles (reveal/hide)"
         },
         "ResetDialog": {
             "Title": "Reset Scene?",
@@ -49,6 +53,7 @@
             "Confirm": "Type this exact code in the box below in order to proceed: <strong>{code}</strong>",
             "Choices": {
                 "Explored": "Show All",
+                "Partial": "Partial All",
                 "Unexplored": "Hide All"
             }
         },

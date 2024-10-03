@@ -22,7 +22,8 @@ Hooks.on("init", async () => {
         const settings = { 
             ...DEFAULT_SETTINGS, 
             ...this.document.flags["world-explorer"],
-            options : {
+            units: this.document.grid.units,
+            options: {
                 positions: POSITION_OPTIONS,
                 gm: game.i18n.localize("USER.RoleGamemaster"),
                 player: game.i18n.localize("USER.RolePlayer")
@@ -43,6 +44,7 @@ Hooks.on("init", async () => {
 
 Hooks.on("canvasReady", () => {
     canvas.worldExplorer?.onCanvasReady();
+    OpacityGMAdjuster.instance?.detectClose(controls);
 });
 
 Hooks.on("createToken", (token) => {
@@ -71,7 +73,7 @@ Hooks.on("deleteToken", () => {
 Hooks.on("updateScene", (scene, data) => {
     // Skip if the updated scene isn't the current one
     if (scene.id !== canvas.scene.id) return;
-    
+
     if (data.flags && "world-explorer" in data.flags) {
         const worldExplorerFlags = data.flags["world-explorer"];
 
@@ -125,33 +127,13 @@ Hooks.on("getSceneControlButtons", (controls) => {
                 icon: "fas fa-grid-2-plus"
             },
             {
-                name: "partialOpacityGM",
-                title: game.i18n.localize("WorldExplorer.Tools.PartialOpacity"),
-                icon: "fad fa-eye",
+                name: "opacity",
+                title: game.i18n.localize("WorldExplorer.Tools.Opacity.Title"),
+                icon: "fad fa-eye-low-vision",
                 toggle: true,
                 onClick: () => {
-                    const flagName = 'partialOpacityGM';
-                    let instance = OpacityGMAdjuster.instances.get(flagName);
-                    if (!instance) {
-                        instance = new OpacityGMAdjuster(flagName);
-                        OpacityGMAdjuster.instances.set(flagName, instance);
-                    }
-                    instance.toggleVisibility();
-                }
-            },
-            {
-                name: "opacityGM",
-                title: game.i18n.localize("WorldExplorer.Tools.Opacity"),
-                icon: "fas fa-eye",
-                toggle: true,
-                onClick: () => {
-                    const flagName = 'opacityGM';
-                    let instance = OpacityGMAdjuster.instances.get(flagName);
-                    if (!instance) {
-                        instance = new OpacityGMAdjuster(flagName);
-                        OpacityGMAdjuster.instances.set(flagName, instance);
-                    }
-                    instance.toggleVisibility();
+                    const adjuster = OpacityGMAdjuster.instance;
+                    adjuster.toggleVisibility();
                 }
             },
             {
@@ -172,19 +154,24 @@ Hooks.on("getSceneControlButtons", (controls) => {
                         content,
                         buttons: {
                             unexplored: {
-                                icon: '<i class="fa-solid fa-user-secret"></i>',
+                                icon: '<i class="fas fa-user-secret"></i>',
                                 label: game.i18n.localize("WorldExplorer.ResetDialog.Choices.Unexplored"),
                                 callback: () => canvas.worldExplorer.clear(),
                             },
+                            partial: {
+                                icon: '<i class="fas fa-cloud-fog"></i>',
+                                label: game.i18n.localize("WorldExplorer.ResetDialog.Choices.Partial"),
+                                callback: () => canvas.worldExplorer.clear({ partial: true }),
+                            },
                             explored: {
-                                icon: '<i class="fa-solid fa-eye"></i>',
+                                icon: '<i class="fas fa-eye"></i>',
                                 label: game.i18n.localize("WorldExplorer.ResetDialog.Choices.Explored"),
                                 callback: () => canvas.worldExplorer.clear({ reveal: true }),
                             },
                             cancel: {
-                                icon: '<i class="fa-solid fa-times"></i>',
+                                icon: '<i class="fas fa-times"></i>',
                                 label: game.i18n.localize("Cancel"),
-                            },
+                            }
                         },
                         render: ($html) => {
                             const $codeInput = $html.find("input");
@@ -194,8 +181,8 @@ Hooks.on("getSceneControlButtons", (controls) => {
                                 const matches = $codeInput.val().trim() === code; 
                                 $buttons.prop("disabled", !matches);
                             })
-                        },
-                    }).render(true);
+                        }
+                    }, { width: 500 }).render(true);
                 },
             }
         ],
@@ -215,9 +202,7 @@ Hooks.on('renderSceneControls', (controls) => {
         canvas.worldExplorer.stopEditing();
     }
 
-    for (const instance of OpacityGMAdjuster.instances.values()) {
-        instance.detectClose(controls);
-    }
+    OpacityGMAdjuster.instance?.detectClose(controls);
 });
 
 /** Refreshes the scene on token move, revealing a location if necessary */

@@ -1,15 +1,15 @@
-.world-explorer-opacity-adjuster {
+#world-explorer-opacity-adjuster {
     background: none;
     box-shadow: 0 0 10px black;
 }
 
-.world-explorer-opacity-adjuster .window-content {
+#world-explorer-opacity-adjuster .window-content {
     background: rgba(0, 0, 0, 0.5);
     border-radius: 6px;
     color: var(--color-text-light-heading);
 }
 
-.world-explorer-opacity-adjuster input[type="number"] {
+#world-explorer-opacity-adjuster input[type="number"] {
     color: var(--color-text-light-heading);
 }
 

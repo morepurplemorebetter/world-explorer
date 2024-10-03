@@ -1,13 +1,7 @@
 import { DEFAULT_SETTINGS } from "./world-explorer-layer.mjs";
 
 export class OpacityGMAdjuster extends Application {
-    constructor(opacitySetting) {
-        super({ id: `${opacitySetting}-adjuster` });
-        this.opacityType = opacitySetting;
-    }
-
-    static instances = new Map();
-    //static instance = new this();
+    static instance = new this();
 
     scene = null;
 
@@ -15,7 +9,7 @@ export class OpacityGMAdjuster extends Application {
         return {
             ...super.defaultOptions,
             width: 400,
-            classes: ['world-explorer-opacity-adjuster'],
+            id: "world-explorer-opacity-adjuster",
             minimizable: false
         };
     }
@@ -29,7 +23,7 @@ export class OpacityGMAdjuster extends Application {
         if (!this.scene) return this;
 
         // Adjust position of this application's window
-        const bounds = ui.controls.element.find(`li[data-tool="${this.opacityType}"]`)[0].getBoundingClientRect();
+        const bounds = ui.controls.element.find(`li[data-tool="opacity"]`)[0].getBoundingClientRect();
         options.left = bounds.right + 6;
         options.top = bounds.top - 3;
 
@@ -39,8 +33,8 @@ export class OpacityGMAdjuster extends Application {
     getData() {
         const flags = this.scene.flags["world-explorer"] ?? {};
         return {
-            label: game.i18n.localize(`WorldExplorer.Tools.${this.opacityType === 'opacityGM' ? 'Opacity' : 'PartialOpacity'}`),
-            opacity: flags[this.opacityType] ?? DEFAULT_SETTINGS[this.opacityType]
+            partialOpacityGM: flags.partialOpacityGM ?? DEFAULT_SETTINGS.partialOpacityGM,
+            opacityGM: flags.opacityGM ?? DEFAULT_SETTINGS.opacityGM
         };
     }
 
@@ -51,7 +45,8 @@ export class OpacityGMAdjuster extends Application {
 
         $html.on("input", (event) => {
             const value = Number(event.target.value);
-            this.scene.update({ [`flags.world-explorer.${this.opacityType}`]: value });
+            const updateId = event.target.parentNode.name;
+            this.scene.update({ [updateId]: value });
         });
     }
 

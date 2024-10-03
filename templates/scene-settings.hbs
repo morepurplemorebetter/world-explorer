@@ -17,6 +17,7 @@
     <div class="form-fields">
         <color-picker name="flags.world-explorer.color" value="{{color}}"  placeholder="Default (#000000)"></color-picker>
     </div>
+    <p class="notes">{{localize "WorldExplorer.SceneSettings.Colors.Overlay.Hint"}}</p>
 </div>
 {{!-- Partial Colour --}}
 <div class="form-group">
@@ -38,7 +39,7 @@
 </div>
 {{!-- Extend Revealed Tiles --}}
 <div class="form-group">
-    <label>{{localize "WorldExplorer.SceneSettings.GridReveal.Label"}}</label>
+    <label>{{localize "WorldExplorer.SceneSettings.GridReveal.Label"}} <span class="units">({{units}})</span></label>
     <div class="form-fields">
         <input type="number" name="flags.world-explorer.gridRevealRadius" value="{{gridRevealRadius}}">
     </div>
@@ -84,10 +85,9 @@
         <input type="checkbox" name="flags.world-explorer.persistExploredAreas" {{checked persistExploredAreas}}/>
     </div>
     <div class="form-group">
-        <label>{{localize "WorldExplorer.SceneSettings.TokenInteractions.TokenReveal"}}</label>
+        <label>{{localize "WorldExplorer.SceneSettings.TokenInteractions.TokenReveal"}} <span class="units">({{units}})</span></label>
         <div class="form-fields">
             <input type="number" name="flags.world-explorer.revealRadius" value="{{revealRadius}}">
         </div>
     </div>
 </fieldset>
-
