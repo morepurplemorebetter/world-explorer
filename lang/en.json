@@ -1,32 +1,46 @@
 {
     "WorldExplorer": {
         "Name": "World Explorer",
-        "Settings": {
-        },
         "SceneSettings": {
-            "Description": "Configure settings for the World Explorer module",
             "Enabled": "Enable the module to work for this scene",
-            "Color": "Overlay Color",
-            "Image": "Overlay Image",
-            "Reveal": "Token Reveal (Distance)",
-            "GridReveal": "Grid Tile Extended Reveal (Distance)",
-            "GM_Opacity": "Game Master Overlay Opacity",
-            "Player_Opacity": "Player Overlay Opacity",
-            "Persist_Explored_Areas": "Keep areas explored by tokens",
-            "Position": "Overlay Position",
-            "PositionHint": "Whether it should display below tiles and textures or above.",
-            "PositionOption": {
-                "back": "Cover the map only",
-                "behindDrawings": "Cover the map and non-overhead tiles",
-                "behindTokens": "Cover the map, non-overhead tiles, and drawings",
-                "front": "Cover everything except grid"
+            "Colors": {
+                "Overlay.Label": "Overlay Color",
+                "Partial.Label": "Partly Revealed Overlay Color",
+                "Partial.Hint": "Optional. Will color partly revealed grid tiles differently, using the opacity set below. If using an overlay image, the overlay color and partly revealed overlay color will be ignored."
+            },
+            "Image.Label": "Overlay Image",
+            "GridReveal": {
+                "Label": "Extend Revealed Tiles (distance)",
+                "Hint": "Set this if you want the revealed grid tiles to extend a certain amount into hidden grid tiles and partly revealed grid tiles. This does not extend the partly revealed grid tiles."
+            },
+            "Opacity": {
+                "Title": "{role} Overlay Opacity",
+                "Hidden": "Hidden Grid Tiles",
+                "Partial": "Partly Revealed Grid Tiles"
+            },
+            "Position": {
+                "Options": {
+                    "back": "Cover the map only",
+                    "behindDrawings": "Cover the map and non-overhead grid tiles",
+                    "behindTokens": "Cover the map, non-overhead grid tiles, and drawings",
+                    "front": "Cover everything except grid"
+                },
+                "Label": "Overlay Position",
+                "Hint": "Whether it should display below grid tiles and textures or above."
+            },
+            "TokenInteractions" : {
+                "Title": "Token Interactions with Grid Tile",
+                "TokenReveal": "Token Reveal (distance)",
+                "PersistExplored": "Keep areas explored by tokens"
             }
         },
         "Tools": {
-            "Toggle": "Toggle Tiles",
-            "Reveal": "Reveal Tiles",
-            "Hide": "Hide Tiles",
-            "Opacity": "Game Master Overlay Opacity",
+            "Toggle": "Toggle Grid Tiles (reveal/hide)",
+            "Reveal": "Reveal Grid Tiles",
+            "Partial": "Partly Reveal Grid Tiles",
+            "Hide": "Hide Grid TIles",
+            "Opacity": "GM Overlay Opacity",
+            "PartialOpacity": "GM Partly Revealed Opacity",
             "Reset": "Reset Scene"
         },
         "ResetDialog": {

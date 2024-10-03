@@ -2,17 +2,17 @@ import { OpacityGMAdjuster } from "./module/opacity-slider.mjs";
 import { WorldExplorerLayer, DEFAULT_SETTINGS } from "./module/world-explorer-layer.mjs";
 
 const POSITION_OPTIONS = {
-    back: "WorldExplorer.SceneSettings.PositionOption.back",
-    behindDrawings: "WorldExplorer.SceneSettings.PositionOption.behindDrawings",
-    behindTokens: "WorldExplorer.SceneSettings.PositionOption.behindTokens",
-    front: "WorldExplorer.SceneSettings.PositionOption.front",
+    back: "WorldExplorer.SceneSettings.Position.Options.back",
+    behindDrawings: "WorldExplorer.SceneSettings.Position.Options.behindDrawings",
+    behindTokens: "WorldExplorer.SceneSettings.Position.Options.behindTokens",
+    front: "WorldExplorer.SceneSettings.Position.Options.front"
 }
 
 Hooks.on("init", async () => {
     // Add world explorer layer
     CONFIG.Canvas.layers["worldExplorer"] = {
         layerClass: WorldExplorerLayer,
-        group: "primary",
+        group: "primary"
     };
 
     // Create scene configuration overrides
@@ -22,9 +22,13 @@ Hooks.on("init", async () => {
         const settings = { 
             ...DEFAULT_SETTINGS, 
             ...this.document.flags["world-explorer"],
-            POSITION_OPTIONS,
+            options : {
+                positions: POSITION_OPTIONS,
+                gm: game.i18n.localize("USER.RoleGamemaster"),
+                player: game.i18n.localize("USER.RolePlayer")
+            }
         };
-        const templateName = "modules/world-explorer/templates/scene-settings.html";
+        const templateName = "modules/world-explorer/templates/scene-settings.hbs";
         const template = await renderTemplate(templateName, settings);
         
         const name = game.i18n.localize("WorldExplorer.Name");
@@ -43,9 +47,7 @@ Hooks.on("canvasReady", () => {
 
 Hooks.on("createToken", (token) => {
     updateForToken(token);
-    if (canvas.worldExplorer?.settings.revealRadius) {
-        canvas.worldExplorer.refreshMask();
-    }
+    refreshThrottled();
 });
 
 Hooks.on("updateToken", (token, data) => {
@@ -63,9 +65,7 @@ Hooks.on("refreshToken", (token, options) => {
 });
 
 Hooks.on("deleteToken", () => {
-    if (canvas.worldExplorer?.settings.revealRadius) {
-        canvas.worldExplorer.refreshMask();
-    }
+    refreshThrottled();
 });
 
 Hooks.on("updateScene", (scene, data) => {
@@ -76,8 +76,8 @@ Hooks.on("updateScene", (scene, data) => {
         const worldExplorerFlags = data.flags["world-explorer"];
 
         // If the only change was revealed positions, do the throttled refresh to not interfere with token moving
-        if (worldExplorerFlags.revealedPositions && Object.keys(worldExplorerFlags).length === 1) {
-            refreshThrottled();
+        if (worldExplorerFlags.gridPositions && Object.keys(worldExplorerFlags).length === 1) {
+            refreshThrottled(true);
         } else {
             canvas.worldExplorer?.update();
         }
@@ -112,22 +112,47 @@ Hooks.on("getSceneControlButtons", (controls) => {
             {
                 name: "reveal",
                 title: game.i18n.localize("WorldExplorer.Tools.Reveal"),
-                icon: "fas fa-paint-brush"
+                icon: "fat fa-grid-2-plus"
+            },
+            {
+                name: "partial",
+                title: game.i18n.localize("WorldExplorer.Tools.Partial"),
+                icon: "fad fa-grid-2-plus"
             },
             {
                 name: "hide",
                 title: game.i18n.localize("WorldExplorer.Tools.Hide"),
-                icon: "fas fa-eraser"
+                icon: "fas fa-grid-2-plus"
             },
             {
-                name: "opacity",
-                title: game.i18n.localize("WorldExplorer.Tools.Opacity"),
-                icon: "fas fa-lightbulb",
+                name: "partialOpacityGM",
+                title: game.i18n.localize("WorldExplorer.Tools.PartialOpacity"),
+                icon: "fad fa-eye",
                 toggle: true,
                 onClick: () => {
-                    const adjuster = OpacityGMAdjuster.instance;
-                    adjuster.toggleVisibility();
-                },
+                    const flagName = 'partialOpacityGM';
+                    let instance = OpacityGMAdjuster.instances.get(flagName);
+                    if (!instance) {
+                        instance = new OpacityGMAdjuster(flagName);
+                        OpacityGMAdjuster.instances.set(flagName, instance);
+                    }
+                    instance.toggleVisibility();
+                }
+            },
+            {
+                name: "opacityGM",
+                title: game.i18n.localize("WorldExplorer.Tools.Opacity"),
+                icon: "fas fa-eye",
+                toggle: true,
+                onClick: () => {
+                    const flagName = 'opacityGM';
+                    let instance = OpacityGMAdjuster.instances.get(flagName);
+                    if (!instance) {
+                        instance = new OpacityGMAdjuster(flagName);
+                        OpacityGMAdjuster.instances.set(flagName, instance);
+                    }
+                    instance.toggleVisibility();
+                }
             },
             {
                 name: "reset",
@@ -174,7 +199,7 @@ Hooks.on("getSceneControlButtons", (controls) => {
                 },
             }
         ],
-        activeTool: "toggle",
+        activeTool: "toggle"
     });
 });
 
@@ -183,14 +208,16 @@ Hooks.on('renderSceneControls', (controls) => {
     if (!canvas.worldExplorer) return;
 
     const isExplorer = controls.activeControl === "world-explorer";
-    const isEditTool = ["toggle", "reveal", "hide"].includes(controls.activeTool);
+    const isEditTool = ["toggle", "reveal", "hide", "partial"].includes(controls.activeTool);
     if (isEditTool && isExplorer) {
         canvas.worldExplorer.startEditing(controls.activeTool);
     } else {
         canvas.worldExplorer.stopEditing();
     }
 
-    OpacityGMAdjuster.instance?.detectClose(controls);
+    for (const instance of OpacityGMAdjuster.instances.values()) {
+        instance.detectClose(controls);
+    }
 });
 
 /** Refreshes the scene on token move, revealing a location if necessary */
@@ -212,11 +239,11 @@ function updateForToken(token, data={}) {
             y: (data.y ?? token.y) + ((token.parent?.dimensions?.size / 2) ?? 0),
         };
         canvas.worldExplorer.reveal(center);
-    } 
+    }
 }
 
-const refreshThrottled = foundry.utils.throttle(() => {
-    if (canvas.worldExplorer?.settings.revealRadius) {
-        canvas.worldExplorer.refreshMask();
+const refreshThrottled = foundry.utils.throttle((force) => {
+    if (force || canvas.worldExplorer?.settings.revealRadius > 0) {
+        canvas.worldExplorer.refreshMasks();
     }
 }, 30);

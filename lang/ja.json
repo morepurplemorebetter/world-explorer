@@ -1,25 +1,56 @@
 {
     "WorldExplorer": {
         "Name": "ワールドマスク",
-        "Settings": {
-        },
         "SceneSettings": {
-            "Description": "ワールドマスクの設定",
             "Enabled": "このシーンでModを使用する",
-            "Color": "マスク色",
-            "Image": "マスク画像",
-            "Reveal": "コマ視認距離",
-            "GM_Opacity": "GMのマスクの不透明度",
-            "Player_Opacity": "PLのマスクの不透明度",
-            "Persist_Explored_Areas": "コマが見たマスクを記憶する"
+            "Colors": {
+                "Overlay.Label": "マスク色",
+                "Partial.Label": "Partly Revealed Overlay Color",
+                "Partial.Hint": "Optional. Will color partly revealed grid tiles differently, using the opacity set below. If using an overlay image, the overlay color and partly revealed overlay color will be ignored."
+            },
+            "Image.Label": "マスク画像",
+            "GridReveal.Label": "Extend Revealed Tiles (Distance)",
+            "Opacity": {
+                "Title": "{role} のマスクの不透明度",
+                "Hidden": "Hidden Grid Tiles",
+                "Partial": "Partly Revealed Grid Tiles"
+            },
+            "Position": {
+                "Options": {
+                    "back": "Cover the map only",
+                    "behindDrawings": "Cover the map and non-overhead grid tiles",
+                    "behindTokens": "Cover the map, non-overhead grid tiles, and drawings",
+                    "front": "Cover everything except grid"
+                },
+                "Label": "Overlay Position",
+                "Hint": "Whether it should display below grid tiles and textures or above."
+            },
+            "TokenInteractions" : {
+                "Title": "Token Interactions with Grid Tile",
+                "TokenReveal": "コマ視認距離",
+                "PersistExplored": "コマが見たマスクを記憶する"
+            }
         },
         "Tools": {
             "Toggle": "タイル切替",
+            "Reveal": "Reveal Grid Tiles",
+            "Partial": "Partly Reveal Grid Tile",
+            "Hide": "Hide Grid Tiles",
+            "Opacity": "GM Overlay Opacity",
+            "PartialOpacity": "GM Partly Revealed Opacity",
             "Reset": "マスク・リセット"
         },
         "ResetDialog": {
             "Title": "シーンのマスクをリセットしますか？",
-            "Content": "シーンのマスク除去状況がリセットされます"
+            "Content": "シーンのマスク除去状況がリセットされます",
+            "Confirm": "Type this exact code in the box below in order to proceed: <strong>{code}</strong>",
+            "Choices": {
+                "Explored": "Show All",
+                "Unexplored": "Hide All"
+            }
+        },
+        "Notifications": {
+            "Migrated": "World Explorer | Completed migration for the current scene"
         }
     }
 }
