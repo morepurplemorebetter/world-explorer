@@ -463,9 +463,9 @@ export class WorldExplorerLayer extends InteractionLayer {
         const renderHighlight = (position, revealed, partial) => {
             const { x, y } = canvas.grid.getTopLeftPoint(position);
             this.highlightLayer.clear();
-            
+
             // In certain modes, we only go one way, check if the operation is valid
-            const canReveal = (!revealed && ["toggle", "reveal"].includes(this.state.tool)) || (partial && this.state.tool === "reveal");
+            const canReveal = !revealed && ["toggle", "reveal"].includes(this.state.tool);
             const canHide = (revealed && ["toggle", "hide"].includes(this.state.tool)) || (partial && this.state.tool === "hide");
             const canPartial = !partial && this.state.tool === "partial";
 
@@ -474,10 +474,10 @@ export class WorldExplorerLayer extends InteractionLayer {
                 let color = 0xFF0000;
                 if (canPartial) {
                     // default to purple for making tiles partly revealed
-                    color = this.partialColor === "#000000" ? 0x7700FF : Color.from(this.partialColor); 
+                    color = this.partialColor === DEFAULT_SETTINGS.color ? 0x7700FF : Color.from(this.partialColor); 
                 } else if (canHide) {
                     // default to blue for making tiles hidden
-                    color = this.color === "#000000" ? 0x0022FF : Color.from(this.color);
+                    color = this.color === DEFAULT_SETTINGS.color ? 0x0022FF : Color.from(this.color);
                 }
                 canvas.interface.grid.highlightPosition(this.highlightLayer.name, { x, y, color, border: color });
             }
@@ -497,19 +497,20 @@ export class WorldExplorerLayer extends InteractionLayer {
         canvas.stage.addListener('pointerup', (event) => {
             if (!this.enabled || !this.editing || !this.onCanvasStart || event.data.button !== 0 || event.srcElement.tagName !== "CANVAS") return;
 
-            const canReveal = ["toggle", "reveal"].includes(this.state.tool);
-            const canHide = ["toggle", "hide"].includes(this.state.tool);
-            const canPartial = this.state.tool === "partial";
-
             const coords = event.data.getLocalPosition(canvas.app.stage);
             const revealed = this.isRevealed(coords);
             const partial = this.isPartial(coords);
 
-            if (revealed && canHide) {
+            // In certain modes, we only go one way, check if the operation is valid
+            const canReveal = !revealed && ["toggle", "reveal"].includes(this.state.tool);
+            const canHide = (revealed && ["toggle", "hide"].includes(this.state.tool)) || (partial && this.state.tool === "hide");
+            const canPartial = !partial && this.state.tool === "partial";
+
+            if (canHide) {
                 this.unreveal(coords);
-            } else if (!revealed && canReveal) {
+            } else if (canReveal) {
                 this.reveal(coords);
-            } else if (!partial && canPartial) {
+            } else if (canPartial) {
                 this.partial(coords);
             } else {
                 return;
