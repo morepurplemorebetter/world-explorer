@@ -24,6 +24,16 @@
             </div>
             <p class="hint">{{localize "WorldExplorer.FIELDS.color.Hint"}}</p>
         </div>
+        {{!-- Position --}}
+        <div class="form-group">
+            <label>{{localize "WorldExplorer.FIELDS.position.Name"}}</label>
+            <div class="form-fields">
+                <select name="flags.world-explorer.position">
+                    {{selectOptions POSITION_OPTIONS selected=position localize=true}}
+                </select>
+            </div>
+            <p class="hint">{{localize "WorldExplorer.FIELDS.position.Hint"}}</p>
+        </div>
         {{!-- GM Opacity --}}
         <div class="form-group">
             <label>{{localize "WorldExplorer.FIELDS.opacityGM.Name" role=roles.gm}}</label>

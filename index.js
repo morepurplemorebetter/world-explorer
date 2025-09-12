@@ -3,31 +3,13 @@ import { WorldExplorerLayer, DEFAULT_SETTINGS } from "./module/world-explorer-la
 import { calculateGmPartialOpacity } from "./module/util.mjs";
 
 const POSITION_OPTIONS = {
-    back: "WorldExplorer.WorldSettings.Position.Choices.back",
-    behindDrawings: "WorldExplorer.WorldSettings.Position.Choices.behindDrawings",
-    behindTokens: "WorldExplorer.WorldSettings.Position.Choices.behindTokens",
-    front: "WorldExplorer.WorldSettings.Position.Choices.front",
-}
+    back: "WorldExplorer.FIELDS.position.Choices.back",
+    behindDrawings: "WorldExplorer.FIELDS.position.Choices.behindDrawings",
+    behindTokens: "WorldExplorer.FIELDS.position.Choices.behindTokens",
+    front: "WorldExplorer.FIELDS.position.Choices.front",
+};
 
 export const MODULE = "world-explorer";
-
-// World settings
-Hooks.once("init", () => {
-  game.settings.register(MODULE, "position", {
-    name: "WorldExplorer.WorldSettings.Position.Name",
-    hint: "WorldExplorer.WorldSettings.Position.Hint",
-    scope: "world",
-    config: true,
-    type: String,
-    choices: POSITION_OPTIONS,
-    default: "behindDrawings",
-    requiresReload: false,
-    onChange: () => {
-        // If the Z-Index has changed, re-evaluate children
-        canvas.primary.sortChildren();
-    }
-  });
-});
 
 Hooks.on("init", () => {
     // Add world explorer layer
@@ -65,6 +47,7 @@ Hooks.on("ready", () => {
             return {
                 ...DEFAULT_SETTINGS,
                 ...this.document.flags[MODULE],
+                POSITION_OPTIONS,
                 units: this.document.grid.units,
                 document: this.document,
                 tab: context.tabs[partId],

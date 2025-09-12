@@ -4,6 +4,7 @@ declare global {
     type EditingMode = "toggle" | "reveal" | "hide";
 
     type CoordsOrOffset = { offset?: unknown; coords?: unknown };
+    type Position = "back" | "behindDrawings" | "behindTokens" | "front";
 
     interface GridEntry {
         offset: { i: number; j: number; };
@@ -21,6 +22,7 @@ declare global {
         enabled?: boolean;
         zIndex: number;
         gridData?: Record<string, GridEntry | undefined>;
+        position: Position;
     }
 
     interface WorldExplorerState {

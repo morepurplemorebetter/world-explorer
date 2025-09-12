@@ -18,7 +18,7 @@
             },
             "partialColor": {
                 "Name": "Partials Color",
-                "Hint": "If empty, the overlay color will be used.<br>If not empty and using an overlay image, the partials will be colored for the GM, but not for the players.",
+                "Hint": "If empty, the overlay color will be used. If not empty and using an overlay image, the partials will be colored for the GM but not for the players.",
                 "Placeholder": "Default (same as Overlay Color above)"
             },
             "partialOpacityPlayer": {
@@ -28,9 +28,19 @@
             "persistExploredAreas": {
                 "Name": "Keep areas explored by tokens"
             },
+            "position": {
+                "Name": "Overlay Position",
+                "Hint": "Whether it should display below tiles and textures or above.",
+                "Choices": {
+                    "back": "Cover the map only",
+                    "behindDrawings": "Cover the map and non-overhead tiles",
+                    "behindTokens": "Cover the map, non-overhead tiles, and drawings",
+                    "front": "Cover everything except grid"
+                }
+            },
             "revealRadius": {
                 "Name": "Token Reveal Distance",
-                "Hint": "If set, tokens on the scene owned by or friendly to players reveal a certain radius starting from the center."
+                "Hint": "Distance (from center) to temporarily reveal around friendly tokens."
             },
             "gridRevealRadius": {
                 "Name": "Extend Revealed Distance",
@@ -48,18 +58,6 @@
             },
             "TokenInteractions" : {
                 "Title": "Token Interactions"
-            }
-        },
-        "WorldSettings": {
-            "Position": {
-                "Name": "Overlay Position",
-                "Hint": "Whether it should display below tiles and textures or above.",
-                "Choices": {
-                    "back": "Cover the map only",
-                    "behindDrawings": "Cover the map and non-overhead tiles",
-                    "behindTokens": "Cover the map, non-overhead tiles, and drawings",
-                    "front": "Cover everything except grid"
-                }
             }
         },
         "Tools": {

@@ -19,6 +19,7 @@ export const DEFAULT_SETTINGS = {
     opacityPlayer: 1,
     partialOpacityPlayer: 0.4,
     persistExploredAreas: false,
+    position: "behindDrawings",
 };
 
 // DEV NOTE: On sorting layers
@@ -47,7 +48,7 @@ export class WorldExplorerLayer extends foundry.canvas.layers.InteractionLayer {
 
     get sortLayer() {
         // Tokens are 700, Drawings are 600, Tiles are 500
-        switch (game.settings.get(MODULE, "position")) {
+        switch (this.settings.position) {
             case "front":
                 return 1000;
             case "behindTokens":
@@ -119,7 +120,7 @@ export class WorldExplorerLayer extends foundry.canvas.layers.InteractionLayer {
     }
 
     get elevation() {
-        return game.settings.get(MODULE, "position") === "front" ? Infinity : 0;
+        return this.settings.position === "front" ? Infinity : 0;
     }
 
     /**
