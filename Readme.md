@@ -23,3 +23,11 @@ By default, the GM has 75% opacity and players have 100% opacity. While the GM c
 ### Automatic Revealing
 
 While the module expects a manual approach, you can optionally set the module to automatically reveal tiles that players have ventured through. It only performs these updates for tokens that have a player owner. Tokens used to represent wandering encounters won't get revealed to players.
+
+### Partially Revealed Spaces
+
+Optionally, you can mark spaces as being partially revealed using the World Explorer canvas tools to the left. These spaces have their own color and opacity that you can set (40% by default). You can use it, for example, to mark stuff on the map that players know about but haven't visited.
+
+### Credits
+
+* @morepurplemorebetter for implementing partially revealed tiles as well as certain optimizations and fixes
