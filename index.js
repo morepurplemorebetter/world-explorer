@@ -40,13 +40,14 @@ Hooks.on("ready", () => {
     const defaultRenderPartContext = SceneConfig.prototype._preparePartContext;
     SceneConfig.prototype._preparePartContext = async function(partId, context, options) {
         if (partId === "worldExplorer") {
-            const opacityPlayer = this.document.flags[MODULE].opacityPlayer ?? DEFAULT_SETTINGS.opacityPlayer;
-            const opacityGM = this.document.flags[MODULE].opacityGM ?? DEFAULT_SETTINGS.opacityGM;
-            const opacityPartial = this.document.flags[MODULE].partialOpacityPlayer ?? DEFAULT_SETTINGS.partialOpacityPlayer;
+            const flags = this.document.flags[MODULE] ?? null;
+            const opacityPlayer = flags?.opacityPlayer ?? DEFAULT_SETTINGS.opacityPlayer;
+            const opacityGM = flags?.opacityGM ?? DEFAULT_SETTINGS.opacityGM;
+            const opacityPartial = flags?.partialOpacityPlayer ?? DEFAULT_SETTINGS.partialOpacityPlayer;
             const partialOpacityGM = calculateGmPartialOpacity({ opacityPlayer, opacityGM, opacityPartial }).toFixed(2);
             return {
                 ...DEFAULT_SETTINGS,
-                ...this.document.flags[MODULE],
+                ...(flags ?? {}),
                 POSITION_OPTIONS,
                 units: this.document.grid.units,
                 document: this.document,
