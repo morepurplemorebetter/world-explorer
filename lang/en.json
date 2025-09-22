@@ -23,7 +23,7 @@
             },
             "partialOpacityPlayer": {
                 "Name": "Partials Opacity",
-                "Hint": "GM's will see a weighed opacity for the partially revealed spaces, calculated from the other opacities. This calculated value is shown on the right."
+                "Hint": "GMs will see a weighed opacity for the partially revealed spaces, calculated from the other opacities. This calculated value is shown on the right."
             },
             "persistExploredAreas": {
                 "Name": "Keep areas explored by tokens"
