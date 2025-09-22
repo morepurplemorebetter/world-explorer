@@ -15,7 +15,7 @@ If you're feeling generous, you can send something through [Paypal](https://payp
 <br clear="both"/>
 <br>
 
-Enable this module in scene settings. Once enabled, a tool button will be available in the canvas controls to the left. With those, you can either edit the map in toggle mode (where you hide/reveal grid spaces one at time) or in reveal, partial, or hide modes. The tools also allow you to quickly change the opacity for the GM and to reset the entire map (hiding or revealing everything).
+Enable this module for a scene in the scene's configuration. Once enabled, a tool button will be available in the canvas controls to the left. With those, you can either edit the map in toggle mode (where you hide/reveal grid spaces one at time) or in reveal, partial, or hide modes. You can also quickly change the opacity for the GM and reset the entire map (hiding or revealing everything).
 
 <hr>
 
