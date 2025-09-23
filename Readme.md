@@ -1,6 +1,8 @@
 # World Explorer
 
-GM tool for hexcrawl campaigns that allows displaying a second manual fog of war (with color or image) only over the background layer while keeping the grid visible. You can choose what else this layer covers or not: drawings, (overhead) tiles, and tokens. Grid spaces can be revealed or made partially visible. The GM can always do this manually, but you can also enable auto-revealing areas explored by friendly tokens.
+A Foundry VTT module for hexcrawl campaigns that gives you full control of what your party discovers on the map. This module creates a second manual fog of war—with color or image—which you can reveal one grid space at a time. Grid spaces can be revealed in full or in part, and while the GM can always do this manually, you can also auto-reveal areas explored by friendly tokens.
+
+This second fog of war displays over the background but below the tokens, showing the party while exploring uncharted territory. You can choose whether or not this layer covers tiles, or even tokens—for games that would prefer to treat it as a manual grid based fog of war.
 
 If you're feeling generous, you can send something through [Paypal](https://paypal.me/carlosfernandez1779?locale.x=en_US) if you want.
 
@@ -17,7 +19,7 @@ If you're feeling generous, you can send something through [Paypal](https://payp
 
 Enable this module for a scene in the scene's configuration. Once enabled, a tool button will be available in the canvas controls to the left. With those, you can either edit the map in toggle mode (where you hide/reveal grid spaces one at time) or in reveal, partial, or hide modes. You can also quickly change the opacity for the GM and reset the entire map (hiding or revealing everything).
 
-<hr>
+---
 
 ### Separate Gamemaster and Player Opacities
 
@@ -28,13 +30,13 @@ Enable this module for a scene in the scene's configuration. Once enabled, a too
 
 By default, the GM has 70% opacity and players have 100% opacity. While the GM can see what's underneath, the view is completely blocked for players unless you set it otherwise. The GM can quickly change their own opacity from the canvas controls whenever they want.
 
-<hr>
+---
 
 ### Partially Revealed Spaces
 
 Optionally, you can mark spaces as being partially revealed using the World Explorer canvas tools to the left. These spaces have their own color and opacity that you can set (40% by default). You can use it, for example, to mark stuff on the map that players know about but haven't visited.
 
-<hr>
+---
 
 ### Automatic Revealing
 
